@@ -3,10 +3,9 @@ FROM lsiobase/alpine:3.7
 RUN apk --no-cache add \
 	ca-certificates
 
-ENV HOME /home/user
-RUN adduser -u 1001 -D user \
-	&& mkdir -p $HOME/.irssi \
-	&& chown -R user:user $HOME
+ENV HOME /home/abc
+RUN mkdir -p $HOME/.irssi \
+	&& chown -R abc:abc $HOME
 
 ENV LANG C.UTF-8
 
@@ -62,7 +61,6 @@ RUN set -x \
 	&& apk add --no-cache --virtual .irssi-rundeps $runDeps perl-libwww \
 	&& apk del .build-deps
 
-WORKDIR $HOME
+COPY root/ /
 
-USER user
-CMD ["irssi"]
+ENTRYPOINT ["/init"]
